@@ -1,8 +1,12 @@
 call plug#begin('~/.vim/plugged')
 
+" Google Formatter
+Plug 'google/vim-maktaba'
+Plug 'google/vim-codefmt'
+Plug 'google/vim-glaive'
+
 " Theme and Icons
 Plug 'dracula/vim'
-Plug 'morhetz/gruvbox'
 Plug 'ryanoasis/vim-devicons'
 
 " nerdtree (folder directory)
@@ -15,15 +19,26 @@ Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
-" Helpers
+" Show git history
 Plug 'airblade/vim-gitgutter'
+
+" Switch between windows
 Plug 'christoomey/vim-tmux-navigator'
 
-" Web Programming
+" Web Programming (uncomment if need)
 "Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
-
+"Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
 call plug#end()
+
+" Web Programming Formatter (uncomment if need)
+"command! -nargs=0 Format :call CocAction('format')
+
+" Google Autoformatting
+augroup autoformat_settings
+  autocmd FileType c,cpp AutoFormatBuffer clang-format
+  autocmd FileType java AutoFormatBuffer google-java-format
+  autocmd FileType python AutoFormatBuffer autopep8
+augroup END
 
 if (has("termguicolors"))
   set termguicolors
@@ -33,29 +48,22 @@ colorscheme dracula
 
 syntax on
 
+set nocompatible
 set hidden
 set number
 set relativenumber
-set nocompatible
 set backspace=indent,eol,start
 set ignorecase
-set cindent
 set smartcase
 set incsearch
-set noerrorbells visualbell t_vb=
-set shortmess+=I
-set mouse+=a
 set laststatus=2
 
 " Indentation and Tab
+set cindent
 set smarttab
 set tabstop=2
 set shiftwidth=2
 set expandtab " 1 tab = 2 spaces
-
-" Open new split panes to right and below
-set splitright
-set splitbelow
 
 nmap Q <Nop> " 'Q' in normal mode enters Ex mode. You almost never want this.
 
@@ -104,11 +112,6 @@ vmap ˚ :m '<-2<CR>gv=gv
 
 " fzf
 nnoremap fzf :FZF<CR>
-let g:fzf_action = {
-  \ 'ctrl-t': 'tab split',
-  \ 'ctrl-s': 'split',
-  \ 'ctrl-v': 'vsplit'
-  \}
 let $FZF_DEFAULT_COMMAND = 'ag -g ""'
 
 " IntelliSense and Syntax Highlighting
@@ -121,9 +124,15 @@ let g:coc_global_extensions = [
   \ 'coc-json', 
   \ ]
 
-command! -nargs=0 Format :call CocAction('format')
 
 " Quick comment (set iTerm preference as well)
 vmap ++ <plug>NERDCommenterToggle
 nmap ++ <plug>NERDCommenterToggle
+
+" Must have (ESC is too far!)
 inoremap jk <ESC>
+
+" Format
+"let g:clang_format#auto_format=1
+vmap FF :FormatCode
+nmap FF :FormatCode
