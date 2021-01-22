@@ -26,17 +26,17 @@ Plug 'airblade/vim-gitgutter'
 Plug 'christoomey/vim-tmux-navigator'
 
 " Web Programming (uncomment if need)
-"Plug 'neoclide/coc.nvim', {'branch': 'release'}
-"Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+Plug 'HerringtonDarkholme/yats.vim' " TS Syntax
 call plug#end()
 
 " Web Programming Formatter (uncomment if need)
-"command! -nargs=0 Format :call CocAction('format')
+command! -nargs=0 Format :call CocAction('format')
 
 " Google Autoformatting
 augroup autoformat_settings
   autocmd FileType c,cpp AutoFormatBuffer clang-format
-  autocmd FileType java AutoFormatBuffer google-java-format
+  autocmd FileType java AutoFormatBuffer clang-format
   autocmd FileType python AutoFormatBuffer autopep8
 augroup END
 
@@ -68,7 +68,7 @@ set expandtab " 1 tab = 2 spaces
 nmap Q <Nop> " 'Q' in normal mode enters Ex mode. You almost never want this.
 
 " Try to prevent bad habits like using the arrow keys for movement. This is
-" not the only possible bad habit. 
+" not the only possible bad habit.
 nmap <Left>  :echoe "Use h"<CR>
 nmap <Right> :echoe "Use l"<CR>
 nmap <Up>    :echoe "Use k"<CR>
@@ -100,6 +100,9 @@ function! OpenTerminal()
 endfunction
 nmap <C-n> :call OpenTerminal()<CR>
 
+set splitright
+set splitbelow
+
 " Move lines like a pro (option + J/K)
 nmap ∆ :m .+1<CR>==
 nmap ˚ :m .-2<CR>==
@@ -119,11 +122,10 @@ let g:coc_global_extensions = [
   \ 'coc-snippets',
   \ 'coc-pairs',
   \ 'coc-tsserver',
-  \ 'coc-eslint', 
-  \ 'coc-prettier', 
-  \ 'coc-json', 
+  \ 'coc-eslint',
+  \ 'coc-prettier',
+  \ 'coc-json',
   \ ]
-
 
 " Quick comment (set iTerm preference as well)
 vmap ++ <plug>NERDCommenterToggle
